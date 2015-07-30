@@ -1,20 +1,13 @@
 module JsonAttributes::LegacyAttributes
-  extend ActiveSupport::Concern
 
-  included do
-    self.json_attrs.each do |attribute|
-      define_method :"#{attribute}?" do
-        !!(self.send(self.field) && self.send(self.field)[attribute.to_s])
-      end
+  def attributes
+    _json_attrs = (self.send(self.class.instance_variable_get(:@field)).try(:dup) || {}).with_indifferent_access
+
+    self.class.instance_variable_get(:@json_attrs).each do |_attribute|
+      _json_attrs[_attribute] = nil unless _json_attrs.has_key?(_attribute)
+      _json_attrs[_attribute] ||= self.send(_attribute)
     end
+
+    super.merge(_json_attrs).with_indifferent_access.slice!(self.class.instance_variable_get(:@field))
   end
-
-  # class_methods do
-  #   self.json_attrs.each do |attribute|
-  #     define_method :"find_by_#{attribute}" do |value|
-  #       self.where("#{self.field}->>'#{attribute}' = ?", value)
-  #     end
-  #   end
-  # end
-
 end
