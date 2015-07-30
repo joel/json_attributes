@@ -1,6 +1,6 @@
 require 'active_record'
 
-ActiveRecord::Base.establish_connection(adapter: 'postgresql', database: 'json_attributes_database')
+ActiveRecord::Base.establish_connection(adapter: 'postgresql', database: 'travis_ci_test')
 
 load File.dirname(__FILE__) + '/../schema.rb'
 

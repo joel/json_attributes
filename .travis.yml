@@ -3,6 +3,6 @@ rvm:
   - 2.2.2
 before_install: gem install bundler -v 1.10.5
 addons:
-  postgresql: '9.4.1'
+  postgresql: '9.4'
 before_script:
-  - psql -c 'create database json_attributes_database;' -U postgres
+  - psql -c 'create database travis_ci_test;' -U postgres
