@@ -11,7 +11,6 @@ module JsonAttributes
   included do
     include LegacyPredicates
     prepend LegacyAttributes
-    # attr_accessor :json_attrs, :field
   end
 
   class_methods do

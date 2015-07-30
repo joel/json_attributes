@@ -6,9 +6,9 @@ load File.dirname(__FILE__) + '/../schema.rb'
 
 require 'json_attributes'
 
-ActiveRecord::Base.send :include, JsonAttributes
+# ActiveRecord::Base.send :include, JsonAttributes
 
 class User < ActiveRecord::Base
-  # include JsonAttributes
+  include JsonAttributes
   json_attributes :office, :address
 end

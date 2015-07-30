@@ -5,7 +5,7 @@ describe JsonAttributes do
     expect(JsonAttributes::VERSION).not_to be nil
   end
 
-  let(:user) { User.where(name: 'Joe Doe').first! }
+  let(:user) { User.where(name: 'John Doe').first! }
 
   it "Json attributes have same access than classic ones" do
     %i(name address).each do |attribute|
@@ -66,6 +66,13 @@ describe JsonAttributes do
       user.attributes = { name: 'Jane Doe', address: 'Second Office' }
       expect(user.address).to eql('Second Office') # Json field
       expect(user.name).to eql('Jane Doe') # Classic field
+
+      # Search works in the same way
+      expect(User.find_by_name('John Doe')).to              eql(user)
+      expect(User.find_by_address('no address filled')).to  eql(user)
+
+      expect(User.find_by_name('No existed record')).to       eql(nil)
+      expect(User.find_by_address('No existed record')).to eql(nil)
     end
   end
 
