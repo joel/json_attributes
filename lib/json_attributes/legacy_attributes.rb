@@ -1,9 +1,13 @@
 module JsonAttributes::LegacyAttributes
 
   def attributes
-    _json_attrs = (self.send(self.class.instance_variable_get(:@field)).try(:dup) || {}).with_indifferent_access
+    _json_attrs = if self.class.instance_variable_get(:@field)
+      self.send(self.class.instance_variable_get(:@field)).dup
+    else
+      {}
+    end.with_indifferent_access
 
-    self.class.instance_variable_get(:@json_attrs).each do |_attribute|
+    (self.class.instance_variable_get(:@json_attrs) || []).each do |_attribute|
       _json_attrs[_attribute] = nil unless _json_attrs.has_key?(_attribute)
       _json_attrs[_attribute] ||= self.send(_attribute)
     end
