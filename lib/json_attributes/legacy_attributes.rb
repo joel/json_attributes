@@ -2,7 +2,7 @@ module JsonAttributes::LegacyAttributes
 
   def attributes
     _json_attrs = if self.class.instance_variable_get(:@field)
-      self.send(self.class.instance_variable_get(:@field)).dup
+      self.send(self.class.instance_variable_get(:@field)).try(:dup) || {}
     else
       {}
     end.with_indifferent_access
